@@ -12,7 +12,7 @@ Projects are ordered by dependency. Each one builds on the knowledge and code fr
 
 | # | Project | Phase | Language | Status |
 |---|---------|-------|----------|--------|
-| 01 | [Memory Allocator](./01-memory-allocator) | Hardware Fundamentals | C | 🔲 Not started |
+| 01 | [Memory Allocator](./01-memory-allocator) | Hardware Fundamentals | C | ✅ Done |
 | 02 | [CPU Emulator](./02-cpu-emulator) | Hardware Fundamentals | C / C++ | 🔲 Not started |
 | 03 | [Encryption Algorithm](./03-encryption-algorithm) | Hardware Fundamentals | C / Python | 🔲 Not started |
 | 04 | [OS Kernel in Assembly](./04-os-kernel-asm) | OS Core Primitives | x86 Assembly | 🔲 Not started |
