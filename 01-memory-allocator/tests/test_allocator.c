@@ -18,8 +18,13 @@ void test_free_and_reuse() {
     void* p1 = my_malloc(128);
     my_free(p1);
     void* p2 = my_malloc(128);
-    // After the first test, there's a free block at the head of the heap.
-    // It's possible p2 is at the very beginning of the heap now.
+    /*
+     * Note: We use p2 <= p1 because tests share a global heap state.
+     * If a prior test left a free block before p1, then freeing p1
+     * might coalesce it with that prior block, making the resulting
+     * free block start earlier in the heap than p1 did.
+     * The allocator is correct as long as it reuses existing free space.
+     */
     assert(p2 <= p1);
     my_free(p2);
     printf("PASSED\n");
