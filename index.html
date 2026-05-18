@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Everything — Systems Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0b;
+  --bg2: #111113;
+  --bg3: #1a1a1e;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.15);
+  --text: #e8e6e0;
+  --text2: #888680;
+  --text3: #555350;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Syne', sans-serif;
+
+  --p1: #a78bfa; --p1b: rgba(167,139,250,0.12); --p1d: rgba(167,139,250,0.06);
+  --p2: #34d399; --p2b: rgba(52,211,153,0.12); --p2d: rgba(52,211,153,0.06);
+  --p3: #60a5fa; --p3b: rgba(96,165,250,0.12); --p3d: rgba(96,165,250,0.06);
+  --p4: #fbbf24; --p4b: rgba(251,191,36,0.12); --p4d: rgba(251,191,36,0.06);
+  --p5: #f97316; --p5b: rgba(249,115,22,0.12); --p5d: rgba(249,115,22,0.06);
+  --p6: #f472b6; --p6b: rgba(244,114,182,0.12); --p6d: rgba(244,114,182,0.06);
+  --p7: #86efac; --p7b: rgba(134,239,172,0.12); --p7d: rgba(134,239,172,0.06);
+  --p8: #94a3b8; --p8b: rgba(148,163,184,0.12); --p8d: rgba(148,163,184,0.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glow blobs */
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 56px;
+}
+
+.header-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-tag::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--text3);
+}
+
+h1 {
+  font-family: var(--sans);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+h1 span {
+  display: block;
+  color: var(--text3);
+  font-weight: 400;
+}
+
+.header-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.meta-label {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.meta-value {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 48px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--text2);
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition: border-color .15s, background .15s;
+}
+.legend-item:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.02); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── PHASE ── */
+.phase { margin-bottom: 12px; }
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.phase-num {
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--text3);
+  min-width: 24px;
+}
+
+.phase-name {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.phase-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.phase-count {
+  font-size: 10px;
+  color: var(--text3);
+}
+
+/* ── CARDS GRID ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  cursor: pointer;
+  transition: border-color .18s, background .18s, transform .12s;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card-bg, transparent);
+  opacity: 0;
+  transition: opacity .18s;
+}
+
+.card:hover {
+  border-color: var(--card-color, var(--border-hover));
+  transform: translateY(-1px);
+}
+.card:hover::before { opacity: 1; }
+
+.card.active {
+  border-color: var(--card-color);
+  background: var(--card-bg2);
+}
+.card.active::before { opacity: 1; }
+
+.card-num {
+  font-size: 10px;
+  color: var(--text3);
+  min-width: 22px;
+  font-weight: 500;
+}
+
+.card-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+
+.card-name {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .15s;
+}
+.card:hover .card-name, .card.active .card-name {
+  color: var(--card-color);
+}
+
+.card-lang {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.card-arrow {
+  font-size: 14px;
+  color: var(--text3);
+  transition: color .15s, transform .15s;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.card:hover .card-arrow {
+  color: var(--card-color);
+  transform: translateX(2px);
+}
+.card.active .card-arrow {
+  color: var(--card-color);
+  transform: rotate(90deg);
+}
+
+/* ── CONNECTOR ── */
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  color: var(--text3);
+  font-size: 11px;
+  gap: 8px;
+  letter-spacing: .08em;
+}
+.connector::before, .connector::after {
+  content: '';
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+}
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  display: none;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--dp-color, var(--border));
+  background: var(--bg2);
+  overflow: hidden;
+  animation: slideIn .2s ease;
+}
+.detail-panel.show { display: block; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dp-top {
+  padding: 20px 24px;
+  background: var(--dp-bg, var(--bg3));
+  border-bottom: 1px solid var(--dp-color, var(--border));
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+
+.dp-index {
+  font-family: var(--sans);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--dp-color);
+  opacity: 0.3;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.dp-content { min-width: 0; }
+
+.dp-name {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dp-color);
+  margin-bottom: 6px;
+}
+
+.dp-why {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+
+.dp-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color .15s;
+}
+.dp-close:hover { color: var(--text); }
+
+.dp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.dp-cell {
+  padding: 14px 20px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.dp-cell:nth-child(even) { border-right: none; }
+.dp-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+.dp-cell-label {
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 5px;
+}
+
+.dp-cell-value {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.diff-dots {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+}
+.diff-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background .1s;
+}
+.diff-dot.on { background: var(--dp-color); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 80px;
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  gap: 16px;
+}
+.footer-left {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+}
+.footer-right {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .08em;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: var(--bg3);
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--p1), var(--p6));
+  transition: width .1s;
+  width: 0%;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a30; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .cards { grid-template-columns: 1fr; }
+  .dp-grid { grid-template-columns: 1fr; }
+  .dp-cell { border-right: none; }
+  .dp-cell:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .dp-cell:last-child { border-bottom: none; }
+  .header-meta { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="header-tag">Systems Engineering Roadmap</div>
+    <h1>
+      Build Everything
+      <span>from memory allocator to browser</span>
+    </h1>
+    <div class="header-meta">
+      <div class="meta-item">
+        <span class="meta-label">Total projects</span>
+        <span class="meta-value">25</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Phases</span>
+        <span class="meta-value">8</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Est. time</span>
+        <span class="meta-value">3–5 years</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Best language</span>
+        <span class="meta-value">C → Rust</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="legend" id="legend"></div>
+
+  <div id="roadmap"></div>
+
+  <footer>
+    <div class="footer-left">Build Everything — Systems Roadmap</div>
+    <div class="footer-right">Click any card to see details</div>
+  </footer>
+
+</div>
+
+<script>
+const PHASES = [
+  {
+    id: 1, name: "Hardware Fundamentals", color: "#a78bfa",
+    bg: "rgba(167,139,250,0.1)", bg2: "rgba(167,139,250,0.05)",
+    items: [1,2,3]
+  },
+  {
+    id: 2, name: "OS Core Primitives", color: "#34d399",
+    bg: "rgba(52,211,153,0.1)", bg2: "rgba(52,211,153,0.05)",
+    items: [4,5,6]
+  },
+  {
+    id: 3, name: "Full Operating System", color: "#60a5fa",
+    bg: "rgba(96,165,250,0.1)", bg2: "rgba(96,165,250,0.05)",
+    items: [7,8]
+  },
+  {
+    id: 4, name: "Language Toolchain", color: "#fbbf24",
+    bg: "rgba(251,191,36,0.1)", bg2: "rgba(251,191,36,0.05)",
+    items: [9,10,11]
+  },
+  {
+    id: 5, name: "Virtualization", color: "#f97316",
+    bg: "rgba(249,115,22,0.1)", bg2: "rgba(249,115,22,0.05)",
+    items: [12,13,14]
+  },
+  {
+    id: 6, name: "Data & Networking", color: "#f472b6",
+    bg: "rgba(244,114,182,0.1)", bg2: "rgba(244,114,182,0.05)",
+    items: [15,16,17,18]
+  },
+  {
+    id: 7, name: "User Interface Layer", color: "#86efac",
+    bg: "rgba(134,239,172,0.1)", bg2: "rgba(134,239,172,0.05)",
+    items: [19,20,21]
+  },
+  {
+    id: 8, name: "End Products", color: "#94a3b8",
+    bg: "rgba(148,163,184,0.1)", bg2: "rgba(148,163,184,0.05)",
+    items: [22,23,24,25]
+  }
+];
+
+const ITEMS = {
+  1: {
+    name: "Memory Allocator", lang: "C / Assembly",
+    difficulty: 2,
+    why: "Everything else needs memory management. Start here — malloc, free, fragmentation, coalescing. Understand the heap before you build anything on top of it.",
+    needs: "Nothing — zero dependencies",
+    unlocks: "Every single project below",
+    resources: "malloc tutorial, dlmalloc source, K&R C chapter on memory"
+  },
+  2: {
+    name: "CPU Emulator", lang: "C / C++",
+    difficulty: 3,
+    why: "Emulate a simple CPU (like 6502 or RISC-V). Gives you deep intuition for fetch-decode-execute cycles, registers, and interrupts — essential before writing an OS kernel.",
+    needs: "Memory Allocator",
+    unlocks: "OS Kernel in Assembly, Virtual Machine",
+    resources: "Writing a CHIP-8 emulator, RISC-V spec, NES dev wiki"
+  },
+  3: {
+    name: "Encryption Algorithm", lang: "C / Python",
+    difficulty: 2,
+    why: "Design or implement a cipher from scratch. Standalone project — no OS needed. Gives you the crypto primitives Blockchain needs later. You already have RUDRA-512 — this phase is done.",
+    needs: "Nothing — standalone project",
+    unlocks: "Blockchain, VCS (hashing)",
+    resources: "AES spec (FIPS 197), SHA-2 RFC, Cryptopals challenges"
+  },
+  4: {
+    name: "OS Kernel in Assembly", lang: "x86 Assembly",
+    difficulty: 5,
+    why: "Bare-metal bootloader + kernel. Protected mode, GDT, IDT, timer interrupts. The hardest single project in Phases 1–3 — but everything clicks after this. Write it for i686 or x86-64.",
+    needs: "CPU Emulator insight, Memory Allocator concepts",
+    unlocks: "Full Operating System, Scheduler",
+    resources: "OSDev wiki, Writing a Simple OS from Scratch (Nick Blundell), xv6"
+  },
+  5: {
+    name: "File System", lang: "C",
+    difficulty: 3,
+    why: "Implement inodes, block allocation, directories, and a FAT or ext2-style layout. Build it first as a FUSE module so you can test it on Linux without rebooting into your kernel.",
+    needs: "Memory Allocator",
+    unlocks: "Full OS, Database, VCS, Package Manager",
+    resources: "ext2 spec, FUSE docs, The Linux Programming Interface (ch. 14)"
+  },
+  6: {
+    name: "Scheduler", lang: "C",
+    difficulty: 3,
+    why: "Round-robin, priority queues, CFS-style scheduling. Build it as a userland simulation first (green threads), then integrate into your kernel as preemptive scheduling with timer interrupts.",
+    needs: "OS Kernel basics, Memory Allocator",
+    unlocks: "Full Operating System, Container Runtime",
+    resources: "OSTEP (Operating Systems: Three Easy Pieces), Linux CFS documentation"
+  },
+  7: {
+    name: "Operating System", lang: "C / Assembly",
+    difficulty: 5,
+    why: "Assemble the full OS: kernel + memory manager + file system + scheduler + syscall interface + userland. This is the integration milestone — everything from Phases 1–2 snaps together here.",
+    needs: "OS Kernel, File System, Scheduler, Memory Allocator",
+    unlocks: "Shell, Window Manager, Container Runtime, all of Phase 5",
+    resources: "xv6 source (MIT), SerenityOS (reference), OSDev wiki"
+  },
+  8: {
+    name: "Shell", lang: "C",
+    difficulty: 2,
+    why: "Parse and execute commands, manage processes, pipes, redirections, job control, environment variables. The first interactive program you run on your own OS. Deeply satisfying milestone.",
+    needs: "Operating System (or Linux for practice)",
+    unlocks: "Package Manager, all interactive tooling above it",
+    resources: "Write a Shell in C (tutorial), bash source, POSIX spec"
+  },
+  9: {
+    name: "Compiler", lang: "C / Rust",
+    difficulty: 5,
+    why: "Lexer → parser → AST → semantic analysis → IR → codegen. Start with a toy language targeting x86 or LLVM IR. The single most educational project in this entire list. Nothing teaches CS like this.",
+    needs: "Memory Allocator, Shell (to run and test it)",
+    unlocks: "Programming Language, IDE, all language tooling",
+    resources: "Crafting Interpreters (Nystrom), Engineering a Compiler (Cooper), LLVM tutorial"
+  },
+  10: {
+    name: "Programming Language", lang: "C / Rust",
+    difficulty: 5,
+    why: "Design the language your compiler targets. Add a runtime, garbage collector or ownership model, standard library, and REPL. Now you have a real tool — use it to build later projects.",
+    needs: "Compiler",
+    unlocks: "Package Manager, IDE, Game Engine scripting",
+    resources: "Language Implementation Patterns (Parr), Writing An Interpreter In Go"
+  },
+  11: {
+    name: "Package Manager", lang: "Rust / Go",
+    difficulty: 3,
+    why: "Dependency resolution (SAT solver or PubGrub), lockfiles, registry protocol, install/uninstall, version ranges. Build it for your own language. Teaches constraint solving and network protocols together.",
+    needs: "File System, Network Protocol concept, Programming Language",
+    unlocks: "Complete developer ecosystem for your language",
+    resources: "PubGrub algorithm paper, Cargo source (Rust), npm architecture docs"
+  },
+  12: {
+    name: "Virtual Machine", lang: "C / Rust",
+    difficulty: 3,
+    why: "Bytecode VM — stack or register-based. Different from a CPU emulator: this runs a higher-level IR, not raw machine code. Think JVM or CPython's eval loop. Add a GC for real depth.",
+    needs: "CPU Emulator, Memory Allocator",
+    unlocks: "Hypervisor (conceptually), Language runtime for your PL",
+    resources: "Crafting Interpreters (bytecode VM chapters), LuaVM source, CPython ceval.c"
+  },
+  13: {
+    name: "Container Runtime", lang: "Go / Rust",
+    difficulty: 3,
+    why: "Linux namespaces (pid, net, mnt, uts) + cgroups + overlay filesystem + seccomp + capabilities. Build a minimal OCI-compatible runtime. Teaches OS isolation primitives at the deepest level.",
+    needs: "Operating System, File System, Scheduler",
+    unlocks: "Cloud infrastructure understanding, Hypervisor context",
+    resources: "Linux namespaces man pages, runc source, 'Containers from scratch' (Liz Rice)"
+  },
+  14: {
+    name: "Hypervisor", lang: "C / Rust",
+    difficulty: 5,
+    why: "Type-2 hypervisor using KVM, or bare-metal Type-1. VT-x / AMD-V hardware virtualization, guest memory mapping via EPT/NPT, VCPU scheduling. The apex of systems virtualization work.",
+    needs: "Operating System, CPU Emulator, Virtual Machine",
+    unlocks: "Cloud infrastructure, bare-metal performance knowledge",
+    resources: "KVM API docs, bhyve source, 'Virtual Machines' (Jim Smith), Intel VT-x manual"
+  },
+  15: {
+    name: "Database", lang: "C / Rust",
+    difficulty: 4,
+    why: "B-tree and LSM-tree storage engines, write-ahead log, query parser, ACID transactions, buffer pool manager. Build a key-value store first, then add SQL. SQLite's source is the best single reference.",
+    needs: "File System, Memory Allocator",
+    unlocks: "Web Server backend, Blockchain state management",
+    resources: "SQLite source (annotated), 'Database Internals' (Petrov), CMU DB course"
+  },
+  16: {
+    name: "Network Protocol", lang: "C / Rust",
+    difficulty: 3,
+    why: "Implement TCP/IP from scratch on raw sockets, or design a custom application-layer protocol. Packet framing, retransmission timers, flow control, congestion control (AIMD), connection state machine.",
+    needs: "Operating System (socket API), Memory Allocator",
+    unlocks: "Web Server, Browser networking, Blockchain P2P layer",
+    resources: "TCP RFC 793, 'TCP/IP Illustrated' (Stevens), smoltcp (Rust TCP stack)"
+  },
+  17: {
+    name: "Web Server", lang: "C / Rust",
+    difficulty: 2,
+    why: "HTTP/1.1 parser, keep-alive connection handling, chunked transfer encoding, static file serving, CGI or handler API, TLS via a library. Build on top of your Network Protocol for maximum depth.",
+    needs: "Network Protocol, File System",
+    unlocks: "Browser (client side), Package registry hosting",
+    resources: "HTTP/1.1 RFC 7230, nginx architecture blog, 'Beej's Guide to Network Programming'"
+  },
+  18: {
+    name: "Blockchain", lang: "Rust / Go",
+    difficulty: 3,
+    why: "Hash-linked block structure, Merkle trees, Proof-of-Work or Proof-of-Stake consensus, UTXO or account model, P2P gossip network, basic wallet. Combines your encryption + networking into one system.",
+    needs: "Encryption Algorithm, Network Protocol",
+    unlocks: "Distributed systems intuition, smart contract platforms",
+    resources: "Bitcoin whitepaper, 'Mastering Bitcoin' (Antonopoulos), Ethereum yellow paper"
+  },
+  19: {
+    name: "Window Manager", lang: "C / Rust",
+    difficulty: 3,
+    why: "X11 client or Wayland compositor. Tiling or floating layout engine. Manage windows, handle input events (keyboard/mouse), draw decorations and frames. Required foundation before a GUI toolkit.",
+    needs: "Operating System, File System",
+    unlocks: "GUI Toolkit, Text Editor, IDE",
+    resources: "Xlib programming manual, wlroots source, dwm source (suckless, ~2000 lines)"
+  },
+  20: {
+    name: "GUI Toolkit", lang: "C++ / Rust",
+    difficulty: 4,
+    why: "Widget tree, layout engine (flexbox-style or constraint-based), event dispatch, 2D rendering backend (OpenGL/Cairo/software rasterizer), theming, accessibility. Powers your text editor and IDE.",
+    needs: "Window Manager, Memory Allocator",
+    unlocks: "Text Editor, IDE, Game Engine UI",
+    resources: "GTK source, Qt architecture docs, 'GUI Programming with Python/Qt'"
+  },
+  21: {
+    name: "Text Editor", lang: "Rust / C++",
+    difficulty: 3,
+    why: "Gap buffer or rope data structure for O(1) edits, syntax highlighting via tree-sitter, undo/redo history, multiple cursors, file open/save, UTF-8 handling. Use your GUI Toolkit as the renderer.",
+    needs: "GUI Toolkit, File System",
+    unlocks: "IDE (the core editing component)",
+    resources: "Rope science (Xi editor blog), tree-sitter docs, 'The Craft of Text Editors' (Finseth)"
+  },
+  22: {
+    name: "Version Control System", lang: "Rust / C",
+    difficulty: 3,
+    why: "Content-addressable object store (blobs, trees, commits, tags), refs and branches, 3-way merge, delta compression, pack files, remote protocol. Build a minimal Git clone — it all makes sense once you do.",
+    needs: "File System, Encryption (SHA hashing), Network Protocol (for push/pull)",
+    unlocks: "Deep understanding of how Git actually works",
+    resources: "Pro Git book (ch. 10 Git Internals), 'Write yourself a Git' (Thaumaturgy), gitoxide source"
+  },
+  23: {
+    name: "Game Engine", lang: "C++ / Rust",
+    difficulty: 4,
+    why: "Entity-Component-System architecture, OpenGL/Vulkan renderer, fixed-timestep physics loop, asset pipeline (textures, meshes, audio), scripting with your programming language, scene graph.",
+    needs: "GUI Toolkit, Memory Allocator, Programming Language (for scripting)",
+    unlocks: "Full game development capability",
+    resources: "'Game Engine Architecture' (Gregory), Bevy source (Rust ECS), Hazel engine series"
+  },
+  24: {
+    name: "IDE", lang: "Rust / C++",
+    difficulty: 4,
+    why: "Text Editor + LSP client (language intelligence) + build system integration + debugger adapter protocol (DAP) + file tree + terminal emulator. The culmination of your language + editor + GUI work.",
+    needs: "Text Editor, Compiler, GUI Toolkit, Programming Language",
+    unlocks: "The ultimate developer environment — built by you",
+    resources: "LSP specification, DAP specification, Zed editor architecture blog"
+  },
+  25: {
+    name: "Browser", lang: "C++ / Rust",
+    difficulty: 5,
+    why: "HTML tokenizer + DOM construction, CSS cascade + box model layout engine, JavaScript engine (or embed V8/SpiderMonkey), GPU-accelerated compositing, resource loading pipeline, security sandbox. The most complex single project in existence. End boss.",
+    needs: "Network Protocol, GUI Toolkit, Database, Programming Language, Web Server",
+    unlocks: "The internet — built by you",
+    resources: "'How Browsers Work' (Tali Garsiel), Servo source (Rust), Ladybird source, WebKit architecture docs"
+  }
+};
+
+const DIFF_LABELS = ['', 'Easy', 'Medium', 'Hard', 'Very Hard', 'Extreme'];
+
+function getPhaseForItem(id) {
+  return PHASES.find(p => p.items.includes(id));
+}
+
+function diffDots(d, color) {
+  let html = '<div class="diff-dots">';
+  for (let i = 1; i <= 5; i++) {
+    html += `<div class="diff-dot${i <= d ? ' on' : ''}" style="${i <= d ? `background:${color}` : ''}"></div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+let activeCard = null;
+let activePanel = null;
+
+function closePanel() {
+  if (activeCard) activeCard.classList.remove('active');
+  if (activePanel) { activePanel.classList.remove('show'); activePanel.innerHTML = ''; }
+  activeCard = null;
+  activePanel = null;
+}
+
+function showDetail(cardEl, itemId, panelEl) {
+  if (activeCard === cardEl) { closePanel(); return; }
+  if (activeCard) activeCard.classList.remove('active');
+  if (activePanel) { activePanel.classList.remove('show'); }
+
+  activeCard = cardEl;
+  activePanel = panelEl;
+  cardEl.classList.add('active');
+
+  const item = ITEMS[itemId];
+  const phase = getPhaseForItem(itemId);
+  const c = phase.color;
+
+  panelEl.style.setProperty('--dp-color', c);
+  panelEl.style.setProperty('--dp-bg', phase.bg2);
+
+  panelEl.innerHTML = `
+    <div class="dp-top">
+      <div class="dp-index">${String(itemId).padStart(2,'0')}</div>
+      <div class="dp-content">
+        <div class="dp-name">${item.name}</div>
+        <div class="dp-why">${item.why}</div>
+      </div>
+      <button class="dp-close" onclick="closePanel()">✕</button>
+    </div>
+    <div class="dp-grid">
+      <div class="dp-cell">
+        <div class="dp-cell-label">Needs</div>
+        <div class="dp-cell-value">${item.needs}</div>
+      </div>
+      <div class="dp-cell">
+        <div class="dp-cell-label">Unlocks</div>
+        <div class="dp-cell-value">${item.unlocks}</div>
+      </div>
+      <div class="dp-cell">
+        <div class="dp-cell-label">Language</div>
+        <div class="dp-cell-value">${item.lang}</div>
+      </div>
+      <div class="dp-cell">
+        <div class="dp-cell-label">Difficulty — ${DIFF_LABELS[item.difficulty]}</div>
+        <div class="dp-cell-value">${diffDots(item.difficulty, c)}</div>
+      </div>
+      <div class="dp-cell" style="grid-column: 1 / -1; border-bottom: none;">
+        <div class="dp-cell-label">Resources</div>
+        <div class="dp-cell-value">${item.resources}</div>
+      </div>
+    </div>
+  `;
+
+  panelEl.classList.add('show');
+  panelEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function buildLegend() {
+  const legend = document.getElementById('legend');
+  PHASES.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'legend-item';
+    el.innerHTML = `<div class="legend-dot" style="background:${p.color}"></div>${p.name}`;
+    el.onclick = () => {
+      document.getElementById('phase-' + p.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    legend.appendChild(el);
+  });
+}
+
+function buildRoadmap() {
+  const root = document.getElementById('roadmap');
+
+  PHASES.forEach((phase, pi) => {
+    // Phase wrapper
+    const phaseEl = document.createElement('div');
+    phaseEl.className = 'phase';
+    phaseEl.id = 'phase-' + phase.id;
+
+    // Phase header
+    phaseEl.innerHTML = `
+      <div class="phase-header">
+        <span class="phase-num">0${phase.id}</span>
+        <span class="phase-name" style="color:${phase.color}">${phase.name}</span>
+        <div class="phase-line"></div>
+        <span class="phase-count">${phase.items.length} project${phase.items.length > 1 ? 's' : ''}</span>
+      </div>
+    `;
+
+    // Cards container
+    const cardsEl = document.createElement('div');
+    cardsEl.className = 'cards';
+
+    // Detail panel (shared per phase)
+    const panelEl = document.createElement('div');
+    panelEl.className = 'detail-panel';
+
+    phase.items.forEach(itemId => {
+      const item = ITEMS[itemId];
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.setProperty('--card-color', phase.color);
+      card.style.setProperty('--card-bg', phase.bg);
+      card.style.setProperty('--card-bg2', phase.bg2);
+      card.innerHTML = `
+        <span class="card-num">${String(itemId).padStart(2,'0')}</span>
+        <div class="card-body">
+          <div class="card-name">${item.name}</div>
+          <div class="card-lang">${item.lang}</div>
+        </div>
+        <span class="card-arrow">›</span>
+      `;
+      card.addEventListener('click', () => showDetail(card, itemId, panelEl));
+      cardsEl.appendChild(card);
+    });
+
+    phaseEl.appendChild(cardsEl);
+    phaseEl.appendChild(panelEl);
+    root.appendChild(phaseEl);
+
+    // Connector between phases
+    if (pi < PHASES.length - 1) {
+      const conn = document.createElement('div');
+      conn.className = 'connector';
+      conn.textContent = 'builds on';
+      root.appendChild(conn);
+    }
+  });
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+buildLegend();
+buildRoadmap();
+</script>
+</body>
+</html>
