@@ -158,8 +158,6 @@ Key books and resources used across the project:
 
 **Ayush Anand** — [github.com/Developer-Ayush](https://github.com/Developer-Ayush)
 
-Also building: [Paragi](https://paragi.vercel.app) — a continuous learning graph intelligence architecture.
-
 ---
 
-*Started: 2025 · Est. completion: never (that's the point)*
+*Started: 2026 · Est. completion: never (that's the point)*
