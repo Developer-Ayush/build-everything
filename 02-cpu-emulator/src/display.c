@@ -25,8 +25,8 @@ bool display_draw_pixel(Display *display, uint8_t x, uint8_t y) {
 }
 
 void display_render(const Display *display) {
-    // Reset cursor to top-left
-    printf("\033[H");
+    // Clear screen and reset cursor to top-left
+    printf("\033[2J\033[H");
 
     for (int y = 0; y < DISPLAY_HEIGHT; y++) {
         for (int x = 0; x < DISPLAY_WIDTH; x++) {
