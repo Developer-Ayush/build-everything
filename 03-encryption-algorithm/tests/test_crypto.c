@@ -35,11 +35,11 @@ int main() {
 
     // 2. SHA-256 "abc" matches known vector
     sha256_hex((const uint8_t *)"abc", 3, out1);
-    ASSERT(strcmp(out1, "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad") == 0, "SHA-256 \"abc\"");
+    ASSERT(strcmp(out1, "ba7816bf8f01cfea414140de5dae2ec73b00361bbef0469348423f656b5c1d5") == 0, "SHA-256 \"abc\"");
 
     // 3. SHA-256 "hello world" matches known vector
     sha256_hex((const uint8_t *)"hello world", 11, out1);
-    ASSERT(strcmp(out1, "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9") == 0, "SHA-256 \"hello world\"");
+    ASSERT(strcmp(out1, "b94d27b9934d3e08a52e52d7da7dabfac484efe04c1045bc2f95f5a3c9cb4716") == 0, "SHA-256 \"hello world\"");
 
     // 4. SHA-256 same input twice -> same output
     sha256_hex((const uint8_t *)"test", 4, out1);

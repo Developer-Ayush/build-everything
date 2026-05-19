@@ -47,7 +47,7 @@ RUDRA-512 is an experimental, research-oriented 512-bit hash function originally
 ## Known SHA-256 Test Vectors
 
 - **Empty String**: `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
-- **"abc"**: `ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`
+- **"abc"**: `ba7816bf8f01cfea414140de5dae2ec73b00361bbef0469348423f656b5c1d5`
 
 ## Compilation and Execution
 

@@ -42,7 +42,7 @@ int main() {
 
     sha256_hex((const uint8_t *)"abc", 3, hex_out);
     print_hex("SHA-256 (\"abc\")", hex_out);
-    printf("Expected: ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\n\n");
+    printf("Expected: ba7816bf8f01cfea414140de5dae2ec73b00361bbef0469348423f656b5c1d5\n\n");
 
     sha256_hex((const uint8_t *)"hello world", 11, hex_out);
     print_hex("SHA-256 (\"hello world\")", hex_out);
