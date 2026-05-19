@@ -311,25 +311,6 @@ static uint8_t* feistel_whiten(const uint8_t *input, size_t len, const uint64_t 
     return out;
 }
 
-static uint8_t* tokens_to_bits(const uint8_t *ids, size_t n_ids, size_t *out_len) {
-    size_t total_bits = n_ids * 17;
-    *out_len = (total_bits + 7) / 8;
-    uint8_t *buf = (uint8_t*)calloc(1, *out_len);
-    uint64_t acc = 0;
-    int acc_bits = 0;
-    size_t byte_out = 0;
-    for (size_t i = 0; i < n_ids; ++i) {
-        acc = (acc << 17) | (ids[i] & 0x1FFFFU);
-        acc_bits += 17;
-        while (acc_bits >= 8) {
-            acc_bits -= 8;
-            buf[byte_out++] = (uint8_t)((acc >> acc_bits) & 0xFF);
-        }
-    }
-    if (acc_bits > 0) buf[byte_out] = (uint8_t)((acc << (8 - acc_bits)) & 0xFF);
-    return buf;
-}
-
 static uint32_t* mix_tokens(const uint32_t *input_ids, size_t in_count, const uint32_t *salt_ids, size_t salt_count, const uint64_t sk[8], int rounds) {
     uint32_t *out = (uint32_t*)malloc(in_count * sizeof(uint32_t));
     for (size_t i = 0; i < in_count; ++i) {
