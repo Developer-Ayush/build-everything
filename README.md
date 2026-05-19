@@ -13,7 +13,7 @@ Projects are ordered by dependency. Each one builds on the knowledge and code fr
 | # | Project | Phase | Language | Status |
 |---|---------|-------|----------|--------|
 | 01 | [Memory Allocator](./01-memory-allocator) | Hardware Fundamentals | C | ✅ Done |
-| 02 | [CPU Emulator](./02-cpu-emulator) | Hardware Fundamentals | C / C++ | 🔲 Not started |
+| 02 | [CPU Emulator](./02-cpu-emulator) | Hardware Fundamentals | C / C++ | ✅ Done |
 | 03 | [Encryption Algorithm](./03-encryption-algorithm) | Hardware Fundamentals | C / Python | 🔲 Not started |
 | 04 | [OS Kernel in Assembly](./04-os-kernel-asm) | OS Core Primitives | x86 Assembly | 🔲 Not started |
 | 05 | [File System](./05-file-system) | OS Core Primitives | C | 🔲 Not started |
@@ -117,7 +117,7 @@ These rules keep the project honest:
 ## Progress
 
 ```
-Phase 1  ████████░░░░░░░░░░░░  1 / 3
+Phase 1  ███████████████░░░░░  1 / 3
 Phase 2  ░░░░░░░░░░░░░░░░░░░░  0 / 3
 Phase 3  ░░░░░░░░░░░░░░░░░░░░  0 / 2
 Phase 4  ░░░░░░░░░░░░░░░░░░░░  0 / 3
@@ -126,7 +126,7 @@ Phase 6  ░░░░░░░░░░░░░░░░░░░░  0 / 4
 Phase 7  ░░░░░░░░░░░░░░░░░░░░  0 / 3
 Phase 8  ░░░░░░░░░░░░░░░░░░░░  0 / 4
 
-Total    █░░░░░░░░░░░░░░░░░░░  1 / 25
+Total    ██░░░░░░░░░░░░░░░░░░  1 / 25
 ```
 
 ---
